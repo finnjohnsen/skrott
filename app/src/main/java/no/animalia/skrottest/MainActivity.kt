@@ -127,6 +127,8 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+        fun ByteArray.toHexString() = joinToString("") { "%02x".format(it) }
+
         override fun onCharacteristicChanged(
             gatt: BluetoothGatt,
             characteristic: BluetoothGattCharacteristic,
@@ -136,19 +138,22 @@ class MainActivity : ComponentActivity() {
             Log.e(javaClass.name, "onCharacteristicChanged")
             Log.e(javaClass.name, "bytes: ${value.size}")
             Log.e(javaClass.name, "UTF-8: ${String(value, Charsets.UTF_8)}")
-            val hex = value.joinToString {"${it.dec()}"}
-            Log.e(javaClass.name, "decimals $hex")
+            val decimals = value.joinToString {"${it.dec()}"}
+            Log.e(javaClass.name, "decimals $decimals")
+            Log.e(javaClass.name, "hex ${value.toHexString()}")
 
             /**
              * Skrottkrok RFID
              * bytes: 18
              * UTF-8: :ID64=041A4CA761
              * decimals 57, 72, 67, 53, 51, 60, 47, 51, 48, 64, 51, 66, 64, 54, 53, 48, 12, 9
+             * hex 3a464458422d533d3537383237333837333732303231370d0a
              *
              * Øremerke:
              * bytes: 25
              * UTF-8: :FDXB-S=578273873720217
              * decimals 57, 69, 67, 87, 65, 44, 82, 60, 52, 54, 55, 49, 54, 50, 55, 54, 50, 54, 49, 47, 49, 48, 54, 12, 9
+             * hex 3a494436343d303431413443413736310d0a
              */
 
         }
