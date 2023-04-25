@@ -11,4 +11,4 @@ Characteristic 0003cdd1-0000-1000-8000-00805f9b0131
 ## Data
 i UTF-8 returneres de to formatene (125khz og øremerke) i stringer med prefix for å indikere typen. 
 F.eks:
-''' :ID64=041A4CA761 ''' og ''' :FDXB-S=578273873720217 '''
+<code> :ID64=041A4CA761 </code> og <code> :FDXB-S=578273873720217 </code>
