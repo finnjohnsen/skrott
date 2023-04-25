@@ -17,13 +17,11 @@ import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanFilter
 import android.bluetooth.le.ScanResult
 import android.bluetooth.le.ScanSettings
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.ParcelUuid
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresPermission
@@ -37,10 +35,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ActivityCompat
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import no.animalia.skrottest.ui.theme.MyApplicationTheme
 import java.util.UUID
+
 
 /**
  * Skal finne
@@ -107,6 +104,9 @@ class MainActivity : ComponentActivity() {
                                 if (gattCharacteristic.uuid == gattCharacteristicUUID) {
                                     Log.w(javaClass.name, "Venter --> ${gattCharacteristic.uuid}")
                                     gatt.setCharacteristicNotification(gattCharacteristic, true)
+                                    this@MainActivity.runOnUiThread(Runnable {
+                                        Toast.makeText(this@MainActivity, "Tilkoblet", Toast.LENGTH_LONG).show()
+                                    })
 
                                     // Vet ikke hvorfor dette er nødvendig :(
                                     val descriptor = gattCharacteristic.descriptors.first()
@@ -137,10 +137,15 @@ class MainActivity : ComponentActivity() {
             super.onCharacteristicChanged(gatt, characteristic, value)
             Log.e(javaClass.name, "onCharacteristicChanged")
             Log.e(javaClass.name, "bytes: ${value.size}")
-            Log.e(javaClass.name, "UTF-8: ${String(value, Charsets.UTF_8)}")
+            val scanString = String(value, Charsets.UTF_8)
+            Log.e(javaClass.name, "UTF-8: scanString")
             val decimals = value.joinToString {"${it.dec()}"}
             Log.e(javaClass.name, "decimals $decimals")
             Log.e(javaClass.name, "hex ${value.toHexString()}")
+
+            this@MainActivity.runOnUiThread(Runnable {
+                Toast.makeText(this@MainActivity, scanString, Toast.LENGTH_LONG).show()
+            })
 
             /**
              * Skrottkrok RFID
