@@ -4,13 +4,12 @@ POC for BLE-kommunikasjon med lesestav fra Lexit. Grisekode hvor alt ligger i Ma
 Lesestaven kommuniserer via Bluetooth Low Energy. Lesestaven leser både RFID 125Khz (skrottkrok) og FDXB-S (øremerke)
 
 ## Bluetooth Low Energy
-En må subscribe på: 
+En må subscribe på notifications på følgende service/characteristic: 
 
 ```
 Service 0003cdd0-0000-1000-8000-00805f9b0131
 
 Characteristic 0003cdd1-0000-1000-8000-00805f9b0131
-  
 ```
 
 ## Data
